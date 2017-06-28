@@ -72,7 +72,8 @@ export default function InputComponent(props: IInputProps) {
 Лень писать пример, поэтому посмотрите [тесты](./src/regression/regression.tests.ts)
 
 ```ts
-``
+// ...
+```
 
 
 ### Разработка
