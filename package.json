@@ -1,6 +1,6 @@
 {
   "name": "ibi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of tools for working with code based on interfaces.",
   "repository": "git@github.com:artifact-project/ibi.git",
   "main": "index.js",

@@ -2,8 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
+    "declaration": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "lib": [
       "dom",
       "es5",
