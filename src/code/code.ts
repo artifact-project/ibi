@@ -1,11 +1,11 @@
 const R_PARSE_FN = /^function\s*\(([^\)]+)\)\s*\{([\s\S]+)\}/;
 const R_ARGS_SEPARATOR = /,\s+/;
 
-interface TXRule<I, K extends keyof I, A> {
+export interface TXRule<I, K extends keyof I, A> {
 	(prop: K, value: I[K], dst: A, src: I, ...args): void;
 }
 
-interface TXRules<I, A> {
+export interface TXRules<I, A> {
 	[propName: string]: true | TXRule<I, keyof I, A>;
 }
 
