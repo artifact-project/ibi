@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IBox source 1`] = `
+"function IBox(attrs, srcProps) {
+// Inline: disabled
+
+        srcProps.disabled != null && (attrs.disabled = srcProps.disabled);
+    
+// Inline: size
+
+            attrs.size = srcProps.size + \\"px\\";
+        
+// Inline: color
+
+            attrs.color = srcProps.disabled ? '#ccc' : srcProps.color;
+        
+return attrs;
+}"
+`;
+
+exports[`IBtn source 1`] = `
+"function IBox(attrs, srcProps, classNames) {
+// Inline: value
+
+        srcProps.value != null && (attrs.value = srcProps.value);
+    
+// Inline: disabled
+
+            attrs.disabled = !!srcProps.disabled;
+            srcProps.disabled && classNames.push('disabled');
+            if (srcProps.disabled) {
+                attrs[\\"aria-\\" + 'disabled'] = srcProps.disabled.toString();
+            }
+        
+return attrs;
+}"
+`;
+
+exports[`exec 1`] = `
+"function IElem(attrs, srcProps) {
+// Inline: tabIndex
+
+        srcProps.tabIndex != null && (attrs.tabIndex = srcProps.tabIndex);
+    
+return attrs;
+}"
+`;
+
+exports[`exec 2`] = `
+"function IComponent(attrs, srcProps) {
+// Inline: disabled
+
+        srcProps.disabled != null && (attrs.disabled = srcProps.disabled);
+    
+return attrs;
+}"
+`;
