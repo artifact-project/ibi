@@ -1,4 +1,4 @@
-import {runRegression, registerRegression, Regression, IRegressionEnv} from './regression';
+import {runRegression, registerRegression, Regression, RegressionEnv} from './regression';
 
 interface IBoxProps {
 	width: number;
@@ -14,7 +14,7 @@ class Box {
 	}
 }
 
-interface IRBoxEnv extends IRegressionEnv {
+interface IRBoxEnv extends RegressionEnv {
 }
 
 class RBox extends Regression<Box, IBoxProps, IRBoxEnv> {

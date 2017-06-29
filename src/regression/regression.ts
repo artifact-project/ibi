@@ -1,19 +1,19 @@
-export interface IRegressionEnv {
+export interface RegressionEnv {
 	name: string;
 }
 
-export interface IRegression<T, D, E extends IRegressionEnv> {
+export interface RegressionTest<T, D, E extends RegressionEnv> {
 	initialData?: Partial<D>;
 	initialTest?(target: T, data: Partial<D>, env?: E);
 	data: Partial<D>;
 	test(target: T, data: Partial<D>, env?: E);
 }
 
-export interface RegressionTests<T, D, E extends IRegressionEnv> {
-	[title: string]: IRegression<T, D, E>;
+export interface RegressionCases<T, D, E extends RegressionEnv> {
+	[title: string]: RegressionTest<T, D, E>;
 }
 
-export class Regression<T, D, E extends IRegressionEnv> {
+export class Regression<T, D, E extends RegressionEnv> {
 	constructor(public name: string) {
 	}
 
@@ -30,7 +30,7 @@ export class Regression<T, D, E extends IRegressionEnv> {
 		};
 	}
 
-	protected getAll(): RegressionTests<T, D, E> {
+	protected getAll(): RegressionCases<T, D, E> {
 		return {};
 	}
 }

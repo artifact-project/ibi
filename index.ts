@@ -2,7 +2,9 @@ export {
 	runRegression,
 	registerRegression,
 	Regression,
-	IRegressionEnv,
+	RegressionEnv,
+	RegressionCases,
+	RegressionTest,
 } from './src/regression/regression';
 
 export {
