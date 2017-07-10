@@ -31,8 +31,5 @@
       "js",
       "json"
     ]
-  },
-  "dependencies": {
-    "@types/react": "^15.0.31"
   }
 }

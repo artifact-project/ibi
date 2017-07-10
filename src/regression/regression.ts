@@ -44,6 +44,10 @@ export function registerRegression(name: string, Class: Function) {
 export function runRegression(names: string[], Class: Function) {
 	names.forEach(name => {
 		describe(name, () => {
+			if (!regressions[name]) {
+				throw new Error(`${name} — not found`);
+			}
+
 			const Regression = regressions[name];
 			const regression = new Regression(name);
 			const testCases = regression.getAll();

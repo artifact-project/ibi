@@ -13,7 +13,7 @@ Interface-based instructions
 Ниже будет прмиер создания функции для формирования DOM-свойств на основе входных `props`.
 
 ```ts
-import {createGenerator} from '2i';
+import {createGenerator} from 'ibi';
 
 interface IInputProps {
 	name: string;
