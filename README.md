@@ -19,7 +19,7 @@ const factory: IDeclarationFactory = createDeclarationFactory<T>(
 );
 
 // Где
-//   - <T> — итоговый итервейс аттрибутов
+//   - <T> — итоговый итерфейс получаемого объекта
 //   - args — массив имён переменных, перым идет ссылка на итоговые аттрибуты, вторым исходные
 
 interface IDeclarationFactory {
