@@ -24,7 +24,7 @@ export class Regression<T, D, E extends RegressionEnv> {
 	protected update(target: T, data: D) {
 	}
 
-	protected getEnv(data: Partial<D>): E {
+	protected getEnv(target: T, data: Partial<D>): E {
 		return <E>{
 			name: this.name,
 		};
@@ -43,27 +43,37 @@ export function registerRegression(name: string, Class: Function) {
 
 export function runRegression(names: string[], Class: Function) {
 	names.forEach(name => {
-		const Regression = regressions[name];
-		const regression = new Regression(name);
-		const testCases = regression.getAll();
+		describe(name, () => {
+			const Regression = regressions[name];
+			const regression = new Regression(name);
+			const testCases = regression.getAll();
 
-		Object.keys(testCases).forEach(title => {
-			describe(title, () => {
-				const desc = testCases[title];
-				let instance;
+			Object.keys(testCases).forEach(title => {
+				describe(title, () => {
+					const desc = testCases[title];
+					let instance;
 
-				it('initial', () => {
-					const data = desc.initialData || {};
+					it('initial', () => {
+						const data = desc.initialData || {};
 
-					instance = regression.factory(Class, data);
-					(desc.initialTest ? desc.initialTest : desc.test)(instance, data);
-				});
+						instance = regression.factory(Class, data);
+						(desc.initialTest ? desc.initialTest : desc.test)(
+							instance,
+							data,
+							regression.getEnv(instance, data),
+						);
+					});
 
-				it('changes', () => {
-					const data = desc.data || {};
+					it('changes', () => {
+						const data = desc.data || {};
 
-					regression.update(instance, data);
-					desc.test(instance, data);
+						regression.update(instance, data);
+						desc.test(
+							instance,
+							data,
+							regression.getEnv(instance, data),
+						);
+					});
 				});
 			});
 		});
