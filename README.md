@@ -9,12 +9,38 @@ Interface-based instructions
  - Создание регрессионных тестов
 
 
+
 ### Генерация кода
-Ниже будет прмиер создания функции для формирования DOM-свойств на основе входных `props`.
+
+```ts
+const factory: IDeclarationFactory = createDeclarationFactory<T>(
+	args: string[],
+	defaultHandle(...args) => void,
+);
+
+// Где
+//   - <T> — итоговый итервейс аттрибутов
+//   - args — массив имён переменных, перым идет ссылка на итоговые аттрибуты, вторым исходные
+
+interface IDeclarationFactory {
+	// Зарегистрировать правила для `T`-интерфейса
+	register<T>(name: string, rules: IRules) => ((...args) => object);
+
+	// Выполнить все перечисленные и зарегистрированные функции
+	exec(names: string[], ...args) => void;
+}
+
+interface IRules {
+	[propName: string]: true | (handle(...args) => void);
+}
+```
+
+Прмиер создания функции для формирования DOM-свойств на основе входных `props`.
 
 ```ts
 import {createGenerator} from 'ibi';
 
+// Исходный интерфейс
 interface IInputProps {
 	name: string;
 	value: string;
@@ -22,10 +48,12 @@ interface IInputProps {
 	onInput: (evt: Event) => void;
 }
 
+// Интерфейс результата
 interface IInputDOMAttrs extends IInputProps {
 	'aria-disabled': boolean;
 }
 
+// Создаём фабрику деклараций
 const domAttrs = createDeclarationFactory<IInputDOMAttrs>(
 	['attrs', 'srcProps', 'classNames', 'css'],
 	(prop, value, attrs, srcProps) => { // обработка `true`
@@ -33,6 +61,7 @@ const domAttrs = createDeclarationFactory<IInputDOMAttrs>(
 	}
 );
 
+// Регистрируем функцию конвертации для `IInputProps`
 const inputPropsToAttrs = domAttrs.register<IInputProps>('IInputProps', {
 	name: true, // переносим as is
 	value: true,
@@ -49,7 +78,7 @@ const inputPropsToAttrs = domAttrs.register<IInputProps>('IInputProps', {
 	onInput(prop, value, attrs, srcProps) {
 		// Добавляем слушатель только если не выставлен `disabled`
 		attrs[prop] = srcProps.disabled ? null : value;
-	}
+	},
 });
 
 
@@ -62,6 +91,8 @@ export default function InputComponent(props: IInputProps) {
 
 	inputPropsToAttrs(attrs, props, classNames, css);
 	// или domAttrs.exec(['IInputProps'], attrs, props, classNames, css);
+	// либо ещё лучше, если использовать `tx-reflector`:
+	//   domAttrs.exec(getComponentInterfaces<IInputProps>(this), attrs, props, classNames, css);
 
 	return <input {...attrs} className={classNames.join(' ')}/>;
 }
