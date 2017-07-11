@@ -1,7 +1,7 @@
 {
   "name": "ibi",
-  "version": "0.3.0",
-  "description": "A set of tools for working with code based on interfaces.",
+  "version": "0.3.1",
+  "description": "A set of tools for working with code on interfaces-based.",
   "repository": "git@github.com:artifact-project/ibi.git",
   "main": "index.js",
   "scripts": {

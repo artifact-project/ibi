@@ -1,17 +1,22 @@
 Interface-based instructions
 ----------------------------
-Набор инструментов для работы с кодом основаном на интерфейсах.<br/>
-Лучше всего использовать совместно с [tx-reflector](https://github.com/artifact-project/tx-reflector).
+A set of tools for working with code on interfaces-based.<br/>
+It is best to use together with [tx-reflector](https://github.com/artifact-project/tx-reflector).
 
 
-### Возможности
-
- - «Генерация кода» на основе интерфейса
- - Создание регрессионных тестов
-
+```
+npm i --save-dev ibi
+```
 
 
-### Генерация кода
+### Features
+
+ - "Code generation" on interfaces-based
+ - Creating Regression Tests
+
+
+
+### Code Generation
 
 ```ts
 const factory: IDeclarationFactory = createDeclarationFactory<T>(
@@ -20,14 +25,14 @@ const factory: IDeclarationFactory = createDeclarationFactory<T>(
 );
 
 // Где
-//   - <T> — итоговый интерфейс получаемого объекта
-//   - args — массив имён переменных, первым идет ссылка на итоговый объект, вторым исходный
+//   - <T> — Interface of the result-object
+//   - args — Array of variable names, the first is a reference to the result-object, the second source-object
 
 interface IDeclarationFactory {
-	// Зарегистрировать правила для `T`-интерфейса
+	// Register rules for the `T`-interface
 	register<T>(name: string, rules: IRules) => ((...args) => object);
 
-	// Выполнить все перечисленные и зарегистрированные правила
+	// Run all registered rules
 	exec(names: string[], ...args) => void;
 }
 
@@ -36,12 +41,12 @@ interface IRules {
 }
 ```
 
-Пример создания функции для формирования DOM-свойств на основе входных `props`.
+An example of creating a function for generating DOM-properties based on the input `props`.
 
 ```ts
 import {createGenerator} from 'ibi';
 
-// Исходный интерфейс
+// Source interface
 interface IInputProps {
 	name: string;
 	value: string;
@@ -49,26 +54,26 @@ interface IInputProps {
 	onInput: (evt: Event) => void;
 }
 
-// Интерфейс результата
+// Result interface
 interface IInputDOMAttrs extends IInputProps {
 	'aria-disabled': boolean;
 }
 
-// Создаём фабрику деклараций
+// Create a factory of declarations
 const domAttrs = createDeclarationFactory<IInputDOMAttrs>(
 	['attrs', 'srcProps', 'classNames', 'css'],
-	(prop, value, attrs, srcProps) => { // обработка `true`
+	(prop, value, attrs, srcProps) => { // Processing `true`
 		(srcProps[prop] != null) && (attrs[prop] = srcProps[prop]);
 	}
 );
 
-// Регистрируем функцию конвертации для `IInputProps`
+// Register the conversion function for `IInputProps`
 const inputPropsToAttrs = domAttrs.register<IInputProps>('IInputProps', {
-	name: true, // переносим as is
+	name: true, // Transfer "as is"
 	value: true,
 	disabled(prop, value, attrs, srcProps, classNames, css) {
-		// В этом обработчике кроме `disabled`, определяем `aria-disabled`
-		// и в `classNames` добавляем `css.isDisabled`.
+		// In this handler, except `disabled`,
+		// define `aria-disabled` and into `classNames` add `css.isDisabled`.
 		attrs[prop] = value;
 
 		if (value) {
@@ -77,13 +82,13 @@ const inputPropsToAttrs = domAttrs.register<IInputProps>('IInputProps', {
 		}
 	},
 	onInput(prop, value, attrs, srcProps) {
-		// Добавляем слушатель только если не выставлен `disabled`
+		// Add the listener only if not `disabled`
 		attrs[prop] = srcProps.disabled ? null : value;
 	},
 });
 
 
-// Где-то в коде, например реакт компоненте
+// Somewhere in the code, for example React-like component
 import css from './Input.css';
 
 export default function InputComponent(props: IInputProps) {
@@ -91,8 +96,8 @@ export default function InputComponent(props: IInputProps) {
 	const classNames = [css.input]; // базовый класс
 
 	inputPropsToAttrs(attrs, props, classNames, css);
-	// или domAttrs.exec(['IInputProps'], attrs, props, classNames, css);
-	// либо ещё лучше, если использовать `tx-reflector`:
+	// or domAttrs.exec(['IInputProps'], attrs, props, classNames, css);
+	// or better still, if  use `tx-reflector`:
 	//   domAttrs.exec(getComponentInterfaces<IInputProps>(this), attrs, props, classNames, css);
 
 	return <input {...attrs} className={classNames.join(' ')}/>;
@@ -100,20 +105,16 @@ export default function InputComponent(props: IInputProps) {
 ```
 
 
-### Регрессы
-Лень писать пример, поэтому посмотрите [тесты](./src/regression/regression.tests.ts)
+### Regressions
+Laziness to write an example, so look [tests](./src/regression/regression.tests.ts)
 
 ```ts
 // ...
 ```
 
 
-### Разработка
+### Development
 
  - `npm i`
- - `npm test`
+ - `npm test`, [code coverage](./coverage/lcov-report/index.html)
 
-
-### Code coverage
-
- - [coverage/lcov-report/index.html](./coverage/lcov-report/index.html)
