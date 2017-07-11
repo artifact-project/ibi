@@ -24,7 +24,7 @@ const factory: IDeclarationFactory = createDeclarationFactory<T>(
 	defaultHandle(...args) => void,
 );
 
-// Где
+// Where
 //   - <T> — Interface of the result-object
 //   - args — Array of variable names, the first is a reference to the result-object, the second source-object
 
