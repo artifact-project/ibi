@@ -9,4 +9,5 @@ export {
 
 export {
 	createDeclarationFactory,
+	createMockFactory,
 } from './src/code/code';

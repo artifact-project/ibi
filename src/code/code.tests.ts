@@ -1,4 +1,5 @@
-import {createDeclarationFactory} from './code';
+import {createDeclarationFactory, createMockFactory} from './code';
+import {getRawInterfaces} from 'tx-reflector';
 
 describe('IBox', () => {
 	interface IBoxProps {
@@ -134,4 +135,26 @@ it('exec', () => {
 		disabled: false,
 	};
 	expect(declarations.exec(['IElem', 'IComponent'], {}, props)).toEqual(props);
+});
+
+it('mock', () => {
+	interface IProps {
+		type: string;
+		created: Date;
+	}
+
+	const mock = createMockFactory<IProps>({
+		interfaces: getRawInterfaces<IProps>(),
+		propFactory: (entry, parent) => entry.name === 'created' ? '2017-01-02' : parent(entry),
+	});
+
+	expect(mock()).toEqual({
+		type: '',
+		created: '2017-01-02',
+	});
+
+	expect(mock({type: 'text'})).toEqual({
+		type: 'text',
+		created: '2017-01-02',
+	});
 });

@@ -82,3 +82,44 @@ export function createDeclarationFactory<A>(args: string[], defaultRule: (prop: 
 		}
 	};
 }
+
+export type InterfaceEntry = {type: string, name: string, optional: boolean};
+
+export type MockFactoryOptions = {
+	interfaces: {entries: InterfaceEntry[]}[];
+	factory: () => any;
+	propFactory: (entry: InterfaceEntry, defaultFactory?: (entry: InterfaceEntry) => any) => any
+}
+
+export function DEFAULT_MOCK_FACTORY() {
+	return {};
+}
+
+export function DEFAULT_MOCK_PROP_FACTORY({type}) {
+	switch (type) {
+		case 'number': return '';
+		case 'string': return '';
+		case 'boolean': return false;
+		case 'void': return () => {};
+	}
+
+	return null;
+}
+
+export function createMockFactory<T>({
+	interfaces,
+	factory = DEFAULT_MOCK_FACTORY,
+	propFactory = DEFAULT_MOCK_PROP_FACTORY,
+}: MockFactoryOptions): (props?: Partial<T>) => T {
+	return function (props?: Partial<T>): T {
+		return <T>interfaces.reduce((result, item) => {
+			item.entries.forEach(entry => {
+				result[entry.name] = props && props.hasOwnProperty(entry.name)
+					? props[entry.name]
+					: propFactory(entry, DEFAULT_MOCK_PROP_FACTORY);
+			});
+
+			return result;
+		}, factory())
+	}
+}

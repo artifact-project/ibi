@@ -1,6 +1,6 @@
 {
   "name": "ibi",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "A set of tools for working with code on interfaces-based.",
   "repository": "git@github.com:artifact-project/ibi.git",
   "main": "index.js",
@@ -23,11 +23,12 @@
     "@types/jest": "^19.2.3",
     "jest": "^20.0.3",
     "ts-jest": "^20.0.4",
+    "tx-reflector": "^0.4.0",
     "typescript": "^2.4.0"
   },
   "jest": {
     "transform": {
-      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "^.+\\.tsx?$": "<rootDir>/__jest__/preprocessor.js"
     },
     "testRegex": "\\.tests\\.ts$",
     "setupTestFrameworkScriptFile": "<rootDir>/__jest__/extensions.ts",

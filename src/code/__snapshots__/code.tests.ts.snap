@@ -4,7 +4,7 @@ exports[`IBox source 1`] = `
 "function IBox(attrs, srcProps) {
 // Inline: disabled
 
-        srcProps.disabled != null && (attrs.disabled = srcProps.disabled);
+        (srcProps.disabled != null) && (attrs.disabled = srcProps.disabled);
     
 // Inline: size
 
@@ -12,7 +12,7 @@ exports[`IBox source 1`] = `
         
 // Inline: color
 
-            attrs.color = srcProps.disabled ? '#ccc' : srcProps.color;
+            attrs.color = (srcProps.disabled ? '#ccc' : srcProps.color);
         
 return attrs;
 }"
@@ -22,7 +22,7 @@ exports[`IBtn source 1`] = `
 "function IBox(attrs, srcProps, classNames) {
 // Inline: value
 
-        srcProps.value != null && (attrs.value = srcProps.value);
+        (srcProps.value != null) && (attrs.value = srcProps.value);
     
 // Inline: disabled
 
@@ -40,7 +40,7 @@ exports[`exec 1`] = `
 "function IElem(attrs, srcProps) {
 // Inline: tabIndex
 
-        srcProps.tabIndex != null && (attrs.tabIndex = srcProps.tabIndex);
+        (srcProps.tabIndex != null) && (attrs.tabIndex = srcProps.tabIndex);
     
 return attrs;
 }"
@@ -50,7 +50,7 @@ exports[`exec 2`] = `
 "function IComponent(attrs, srcProps) {
 // Inline: disabled
 
-        srcProps.disabled != null && (attrs.disabled = srcProps.disabled);
+        (srcProps.disabled != null) && (attrs.disabled = srcProps.disabled);
     
 return attrs;
 }"

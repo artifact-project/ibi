@@ -11,9 +11,35 @@ npm i --save-dev ibi
 
 ### Features
 
+ - Create mocks by interface
  - "Code generation" on interfaces-based
  - Creating Regression Tests
 
+
+### Create mocks by interface
+See [tx-reflector configuration](https://github.com/artifact-project/tx-reflector#webpack)
+
+```
+npm i --save-dev ibi tx-reflector
+```
+
+```ts
+import {createMockFactory} from 'ibi';
+import {getRawInterfaces} from 'tx-reflector';
+
+interface IProps {
+	name: string
+	type: string;
+	checked: boolean;;
+}
+
+const mock = createMockFactory<IProps>({
+	interfaces: getRawInterfaces<IProps>(),
+});
+
+mock(); // {name: "", type: "", checked: false};
+mock({checked: true}); // {name: "", type: "", checked: true};
+```
 
 
 ### Code Generation
