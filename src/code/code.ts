@@ -87,8 +87,8 @@ export type InterfaceEntry = {type: string, name: string, optional: boolean};
 
 export type MockFactoryOptions = {
 	interfaces: {entries: InterfaceEntry[]}[];
-	factory: () => any;
-	propFactory: (entry: InterfaceEntry, defaultFactory?: (entry: InterfaceEntry) => any) => any
+	factory?: () => any;
+	propFactory?: (entry: InterfaceEntry, defaultFactory?: (entry: InterfaceEntry) => any) => any
 }
 
 export function DEFAULT_MOCK_FACTORY() {
